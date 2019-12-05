@@ -1,0 +1,45 @@
+body {
+    background-color: aqua;
+}
+
+h1 {
+    color: tomato;
+}
+
+li {
+    color: bisque;
+}
+
+nav {
+    background-color: tomato;
+    color: white;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav h4 {
+    background-color: rgb(249, 159, 143);
+    max-height: 100%;
+    width: auto;
+    padding: 0 5px;
+    margin: 0 5px;
+    text-align: center;
+    padding-top: 15px;
+    
+}
+
+.navRight{
+    display: flex;
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav h4:hover {
+    background-color: rgb(250, 55, 21);
+}
+
