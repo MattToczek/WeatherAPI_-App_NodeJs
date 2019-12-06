@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
 const weather = require('./weatherApp.js');
-const cities = require('./cityList.js')
+const fs = require('fs');
 const countries = require('./countryList.js')
 // const countryCode = require('./public/js/main.js')
 
@@ -42,14 +42,16 @@ app.get('/', (req, res) => {
         title: "Weather App",
         author: "Matt",
         countryList: htmlElementCountry,
-        cityList: htmlElementCity,
+        // cityList: htmlElementCity,
         data: data.weather[0].main
     });
 })
 
-let countryList = countries();
-let cityList = cities('SO');
-console.log("tis is it" + cityList);
+let tempArray = countries();
+
+let countryList = tempArray[0];
+// let cityList = cities('SO');
+// console.log("tis is it" + cityList);
 
 
 let createList = (array, id)=> {                            //returns a select menu populated with countries or cities (string)
@@ -64,7 +66,7 @@ let createList = (array, id)=> {                            //returns a select m
 
 
 let htmlElementCountry = createList(countryList, "countrySelect")
-let htmlElementCity = createList(cityList, "citySelect")
+// let htmlElementCity = createList(cityList, "citySelect")
 // console.log(htmlElement);
 
 
@@ -86,10 +88,7 @@ app.get('/contact', (req,res) => {
 
 app.get('/api', (req, res) => {
     res.send(
-        {
-            forecast: 'It is sunny!',
-            location: 'Manchester'
-        }
+        tempArray[1]
     );
 })
 
