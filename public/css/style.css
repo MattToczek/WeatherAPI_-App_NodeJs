@@ -37,9 +37,10 @@ nav h4 {
 a {
     text-decoration: none;
     color: inherit;
+    height: 100%;
 }
 
-nav h4:hover {
+nav a h4:hover {
     background-color: rgb(250, 55, 21);
 }
 
