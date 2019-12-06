@@ -29,12 +29,15 @@ app.set('views', viewsPath);
 
 let data;
 
-weather("bradford", "uk", "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
-        data = response;
-    });
+// weather("bradford", "uk", "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
+//         data = response;                                            // updates data from whatever is returned by callback (set in weatherApp.js)
+//     });
 
 
 // let city = document.getElementsByClassName("city");
+
+
+
 
 
 app.get('/', (req, res) => {
@@ -90,6 +93,41 @@ app.get('/api', (req, res) => {
     res.send(
         tempArray[1]
     );
+})
+
+app.get('/api2', (req,res) => {
+
+    if(!req.query.city){
+        res.send({
+            error: 'Please enter a city name'
+        })
+    } else{
+        weather(req.query.city, "uk", "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
+            // data = response;                                            // updates data from whatever is returned by callback (set in weatherApp.js)
+            if(response.error){
+                res.send({
+                    error: response.error
+                })
+                
+            }else{
+                res.send({
+                    cityName: req.query.city,
+                    temperature: response.main.temp
+                })
+            }
+        });
+
+        console.log(req.query);
+
+
+    }   
+})
+
+app.get('/weather', (req,res) => {
+    res.render('weather', {
+        cityName: data.name,
+        temperature: data.main.temp
+    })
 })
 
 // catch statement to give error read for wrong path

@@ -3,9 +3,21 @@ console.log("Javascript enabled");
 let countryCode;
 let cities;
 let country = document.getElementById("countrySelect");
+let city = document.getElementById("citySelect");
 let data;
 
+let removeAll = (c) => { 
+    let first = c.firstElementChild;
+    while (c.firstElementChild) { 
+        first.remove(); 
+        first = c.firstElementChild; 
+    } 
+}
+
 country.onchange = (e)=>{
+
+    removeAll(city);
+
     countryCode =  e.target.value; 
     console.log(countryCode);
 
@@ -18,15 +30,33 @@ country.onchange = (e)=>{
         
     }
     console.log(cities);
-    
-    // console.log(cities(countryCode));
+
+    cities.forEach((element, key) => {
+        // create new option element
+        let opt = document.createElement('option');
+
+        // create text node to add to option element (opt)
+        opt.appendChild( document.createTextNode(element) );
+
+        // set value property of opt
+        opt.value = element; 
+        opt.key = key;
+
+        // add opt to end of select box (sel)
+        city.appendChild(opt); 
+    });
+
 }
 
-fetch('http://localhost:3010/api')
+fetch('http://localhost:3010/api')                  // fetches data from api that is made in app.js
   .then(response => response.json())
 //   .then(json => console.log(json))
   
   .then(json => data=json)
+  
+
+
+
 
 
 
