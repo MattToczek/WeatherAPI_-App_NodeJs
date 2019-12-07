@@ -16,7 +16,7 @@ const forecast = (town, country, units, callBack) => {
         if(err){
             console.log("ERROR: Cannot connect to API");
             
-        }else if(response.body==undefined){
+        }else if(response.body == undefined){
             callBack({
                 error: "That city does not exist!"
             });

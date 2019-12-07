@@ -2,8 +2,17 @@ console.log("Javascript enabled");
 
 let countryCode;
 let cities;
-let country = document.getElementById("countrySelect");
-let city = document.getElementById("citySelect");
+const countryName = document.getElementById("countrySelect");
+const weatherForm = document.querySelector('form');
+const search = document.querySelector('goBtn');
+const title = document.querySelector('title');
+
+// const city = document.getElementById("citySelect");
+const cityName = document.getElementById('citySelect');
+const currentTemp = document.getElementById('temp');
+const locationOutput = document.getElementById('locationOutput');
+const weatherOutput = document.getElementById('weatherOutput');
+const tempOutput = document.getElementById('tempOutput');
 let data;
 
 let removeAll = (c) => { 
@@ -14,9 +23,9 @@ let removeAll = (c) => {
     } 
 }
 
-country.onchange = (e)=>{
+countryName.onchange = (e)=>{
 
-    removeAll(city);
+    removeAll(cityName);
 
     countryCode =  e.target.value; 
     console.log(countryCode);
@@ -43,7 +52,7 @@ country.onchange = (e)=>{
         opt.key = key;
 
         // add opt to end of select box (sel)
-        city.appendChild(opt); 
+        cityName.appendChild(opt); 
     });
 
 }
@@ -53,10 +62,34 @@ fetch('http://localhost:3010/api')                  // fetches data from api tha
 //   .then(json => console.log(json))
   
   .then(json => data=json)
+
+  weatherForm.addEventListener('submit', (e) =>{
+    e.preventDefault();
+
+    const country = countryName.value;
+    const city = cityName.value;
+    title.textContent = "Loading...";
+
   
-
-
-
-
-
+ fetch('http://localhost:3010/api3?city=' + city + '&country=' + country).then((response) => { 
+        response.json()
+        .then((data)=> {
+            console.log(data);
+            if (data.error) {
+                console.log(data.error);
+                title.textContent = data.error;
+                locationOutput.textContent = '';
+                tempOutput.textContent = '';
+                weatherOutput.textContent = '';
+            } else {
+                title.textContent = 'Current forecast for';
+                locationOutput.textContent = 'City: ' + data.cityName + ', ' + data.country ;
+                tempOutput.textContent = 'Temp: ' + data.temperature + 'c';
+                weatherOutput.textContent = 'The weather in ' + data.cityName + ' today is ' + data.weather + '.';
+                console.log(data.city);
+                console.log(data.temp);
+            }
+        })
+    })
+})
 

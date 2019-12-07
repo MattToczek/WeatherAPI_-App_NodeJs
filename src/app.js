@@ -27,7 +27,10 @@ hbs.registerPartials(partialPath);
 app.set('view engine', 'hbs'); 
 app.set('views', viewsPath);
 
-let data;
+let data= {
+    name: "",
+    main: {temp: ""}
+};
 
 // weather("bradford", "uk", "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
 //         data = response;                                            // updates data from whatever is returned by callback (set in weatherApp.js)
@@ -46,7 +49,7 @@ app.get('/', (req, res) => {
         author: "Matt",
         countryList: htmlElementCountry,
         // cityList: htmlElementCity,
-        data: data.weather[0].main
+        // data: data.weather[0].main
     });
 })
 
@@ -96,12 +99,13 @@ app.get('/api', (req, res) => {
 })
 
 app.get('/api2', (req,res) => {
-
+    
     if(!req.query.city){
         res.send({
             error: 'Please enter a city name'
         })
-    } else{
+    } 
+    else{
         weather(req.query.city, "uk", "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
             // data = response;                                            // updates data from whatever is returned by callback (set in weatherApp.js)
             if(response.error){
@@ -123,7 +127,41 @@ app.get('/api2', (req,res) => {
     }   
 })
 
+app.get('/api3', (req,res) => {
+    
+    if(!req.query.city || !req.query.country){
+        res.send({
+            error: 'Please enter a country and city name'
+        })
+    } 
+    else{
+        weather(req.query.city, req.query.country, "metric", (response) => {                 // callback passed into the function as parameter to allow for delay in API
+            // data = response;                                            // updates data from whatever is returned by callback (set in weatherApp.js)
+            if(response.error){
+                res.send({
+                    error: response.error
+                })
+                
+            }else{
+                res.send({
+                    cityName: req.query.city,
+                    temperature: response.main.temp,
+                    weather: response.weather[0].main,
+                    country: req.query.country
+
+                })
+            }
+        });
+
+        console.log(req.query);
+
+
+    }   
+})
+
 app.get('/weather', (req,res) => {
+    
+
     res.render('weather', {
         cityName: data.name,
         temperature: data.main.temp

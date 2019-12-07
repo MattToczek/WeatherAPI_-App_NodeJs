@@ -4,7 +4,7 @@
 
 const title = document.getElementById('title');
 const cityName = document.getElementById('city');
-const temp = document.getElementById('temp');
+const currentTemp = document.getElementById('temp');
 
 weatherForm.addEventListener('submit', (e) =>{
     e.preventDefault();
@@ -22,8 +22,8 @@ weatherForm.addEventListener('submit', (e) =>{
                 currentTemp.textContent = '';
             } else {
                 title.textContent = 'Current forecast for';
-                cityName.textContent = data.city;
-                currentTemp.textContent = 'Temp: ' + data.temp + 'c';
+                cityName.textContent = 'City: ' + data.cityName;
+                currentTemp.textContent = 'Temp: ' + data.temperature + 'c';
                 console.log(data.city);
                 console.log(data.temp);
             }
