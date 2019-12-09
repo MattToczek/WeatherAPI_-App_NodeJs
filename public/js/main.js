@@ -13,7 +13,11 @@ const currentTemp = document.getElementById('temp');
 const locationOutput = document.getElementById('locationOutput');
 const weatherOutput = document.getElementById('weatherOutput');
 const tempOutput = document.getElementById('tempOutput');
+const icon = document.getElementById('icon');
+const body = document.getElementById('body')
 let data;
+
+icon.style.display = 'none';
 
 let removeAll = (c) => { 
     let first = c.firstElementChild;
@@ -85,9 +89,44 @@ fetch('http://localhost:3010/api')                  // fetches data from api tha
                 title.textContent = 'Current forecast for';
                 locationOutput.textContent = 'City: ' + data.cityName + ', ' + data.country ;
                 tempOutput.textContent = 'Temp: ' + data.temperature + 'c';
+
+                if (data.weather == "Clouds") {
+                    weatherOutput.textContent = 'The weather in ' + data.cityName + ' today is cloudy.';            //corrects clouds to cloudy to make gramatical sense
+                }else{
                 weatherOutput.textContent = 'The weather in ' + data.cityName + ' today is ' + data.weather + '.';
-                console.log(data.city);
-                console.log(data.temp);
+                }
+                console.log(data.icon);
+                icon.style.display = 'inline-block';
+                icon.src = data.icon;
+
+                console.log(data.weather);
+                console.log(data.temperature);
+
+                switch (true) {
+                    case (data.weather == "Clouds"):
+                        console.log("its clouds");
+                        console.log(data.weather);
+                        body.className = 'cloud';
+                        break;
+                    case (data.weather == "Rain"):
+                        console.log("its Rain");
+                        console.log(data.weather);
+                        body.className = 'rain';
+                        break;
+                    case (data.temperature <= 10):
+                        console.log("its cold");
+                        console.log(data.temperature);
+                            body.className = 'cold';
+                        break
+                    case (data.temperature >= 10):
+                        console.log("its hot");
+                        console.log(data.temperature);
+                        body.className = 'hot';
+                        break
+                    default:
+                        break;
+                }
+                
             }
         })
     })

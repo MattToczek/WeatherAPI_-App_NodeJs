@@ -4,7 +4,7 @@ const request = require('request');
 // citiesAndCountriesAPI = JSON.parse(citiesAndCountriesAPI);
 
 
-const forecast = (town, country, units, callBack) => {
+const forecast = (town, country, units, callback) => {
     let data;
     const encodedCityName = encodeURIComponent(town);
     const encodedCountryName = encodeURIComponent(country);
@@ -17,21 +17,18 @@ const forecast = (town, country, units, callBack) => {
             console.log("ERROR: Cannot connect to API");
             
         }else if(response.body == undefined){
-            callBack({
+            callback({
                 error: "That city does not exist!"
             });
             // console.log("That city does not exist - please chelck tyour slpellidng");
             
         }else{
-
-
-             callBack(response.body);
-
-             data = response.body
-
-            console.log(`Today we have mainly ${data.weather[0].main}`);
+       
             
-            console.log(`The current temperature in ${data.name} is ${data.main.temp} degrees C.`);
+
+            callback(response.body);
+
+            data = response.body
 
             return data;
         }

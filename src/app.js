@@ -4,6 +4,8 @@ const hbs = require('hbs');
 const weather = require('./weatherApp.js');
 const fs = require('fs');
 const countries = require('./countryList.js')
+const getIcon = require('./icon.js')
+
 // const countryCode = require('./public/js/main.js')
 
 //this is convention but I guess it's not actually needed, we could just refer to express directly
@@ -63,6 +65,7 @@ let countryList = tempArray[0];
 let createList = (array, id)=> {                            //returns a select menu populated with countries or cities (string)
     let lis = "";
     for (let index = 0; index < array.length; index++) {
+
         lis += `<option>${array[index]}</option>`;  
         // console.log(lis);
     }
@@ -71,7 +74,13 @@ let createList = (array, id)=> {                            //returns a select m
 }
 
 
-let htmlElementCountry = createList(countryList, "countrySelect")
+
+
+
+
+
+
+let htmlElementCountry = createList(countryList.sort(), "countrySelect")
 // let htmlElementCity = createList(cityList, "citySelect")
 // console.log(htmlElement);
 
@@ -143,17 +152,18 @@ app.get('/api3', (req,res) => {
                 })
                 
             }else{
+
                 res.send({
                     cityName: req.query.city,
                     temperature: response.main.temp,
                     weather: response.weather[0].main,
-                    country: req.query.country
-
+                    country: req.query.country,
+                    icon:  "http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png"
                 })
             }
         });
 
-        console.log(req.query);
+        
 
 
     }   
